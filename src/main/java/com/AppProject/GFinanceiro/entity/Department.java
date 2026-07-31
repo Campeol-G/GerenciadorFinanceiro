@@ -8,7 +8,7 @@ public class Department {
 
   @Id
   private String id;
-  private String name;
+  private String Name;
 
   public String getId() {
     return id;
@@ -19,11 +19,11 @@ public class Department {
   }
 
   public String getName() {
-    return name;
+    return Name;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setName(String Name) {
+    this.Name = Name;
   }
 
   public Department() {
@@ -31,7 +31,7 @@ public class Department {
 
   public Department(String id, String name) {
     this.id = id;
-    this.name = name;
+    this.Name = name;
   }
 
   @Override

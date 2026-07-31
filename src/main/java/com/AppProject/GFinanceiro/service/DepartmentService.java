@@ -18,11 +18,6 @@ public class DepartmentService {
   }
 
   public List<Department> findAll() {
-    List<Department> list = new ArrayList<>();
-    list.add(new Department(null, "vendas"));
-    list.add(new Department(null, "estoque"));
-    list.add(new Department(null, "mecanico"));
-    return list;
-    // return repository.findAll();
+    return repository.findAll();
   }
 }
