@@ -9,8 +9,8 @@ import com.AppProject.GFinanciero.GFinancieroApplication;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 
 public class JavaFxApplication extends Application {
@@ -30,8 +30,10 @@ public class JavaFxApplication extends Application {
           getClass().getResource("/views/MainView.fxml"));
 
       loarder.setControllerFactory(context::getBean);
-      Parent root = loarder.load();
-      Scene scene = new Scene(root);
+      ScrollPane scrollPane = loarder.load();
+      scrollPane.setFitToHeight(true);
+      scrollPane.setFitToWidth(true);
+      Scene scene = new Scene(scrollPane);
       stage.setScene(scene);
       stage.show();
     } catch (IOException e) {
