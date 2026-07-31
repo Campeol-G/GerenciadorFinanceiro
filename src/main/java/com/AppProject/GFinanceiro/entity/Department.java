@@ -7,14 +7,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Department {
 
   @Id
-  private Integer id;
+  private String id;
   private String name;
 
-  public Integer getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(String id) {
     this.id = id;
   }
 
@@ -29,7 +29,7 @@ public class Department {
   public Department() {
   }
 
-  public Department(Integer id, String name) {
+  public Department(String id, String name) {
     this.id = id;
     this.name = name;
   }

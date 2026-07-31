@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import org.springframework.stereotype.Controller;
 
+import com.AppProject.GFinanceiro.entity.Department;
 import com.AppProject.GFinanceiro.javaFx.JavaFxApplication;
 import com.AppProject.GFinanceiro.util.Alerts;
 
@@ -36,7 +37,7 @@ public class MainViewController implements Initializable {
 
   @FXML
   public void onMenuItemDepartmentAction() {
-    loadView("/views/DepartmentList.fxml");
+    loadView2("/views/DepartmentList.fxml");
   }
 
   @FXML
@@ -61,6 +62,29 @@ public class MainViewController implements Initializable {
       mainVbox.getChildren().add(mainMenu);
       mainVbox.getChildren().addAll(vbox.getChildren());
     } catch (IOException e) {
+      e.printStackTrace();
+      Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
+    }
+  }
+
+  private synchronized void loadView2(String absoluteName) {
+    try {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+      loader.setControllerFactory(JavaFxApplication.getContext()::getBean);
+      VBox vbox = loader.load();
+
+      Scene mainScene = JavaFxApplication.getMainScene();
+      VBox mainVbox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
+
+      Node mainMenu = mainVbox.getChildren().get(0);
+      mainVbox.getChildren().clear();
+      mainVbox.getChildren().add(mainMenu);
+      mainVbox.getChildren().addAll(vbox.getChildren());
+
+      DepartmentListController controller = loader.getController();
+      controller.updateTableView();
+    } catch (IOException e) {
+      e.printStackTrace();
       Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
     }
   }

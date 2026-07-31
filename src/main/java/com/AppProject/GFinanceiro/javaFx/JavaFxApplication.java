@@ -15,12 +15,16 @@ import javafx.stage.Stage;
 
 public class JavaFxApplication extends Application {
 
-  private ConfigurableApplicationContext context;
+  private static ConfigurableApplicationContext context;
   private static Scene mainScene;
 
   @Override
   public void init() throws Exception {
     context = new SpringApplicationBuilder(GFinanceiroApplication.class).run();
+  }
+
+  public static ConfigurableApplicationContext getContext() {
+    return context;
   }
 
   @Override
