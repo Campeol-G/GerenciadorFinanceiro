@@ -1,13 +1,13 @@
-package com.AppProject.GFinanciero;
+package com.AppProject.GFinanceiro;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.AppProject.GFinanciero.javaFx.JavaFxApplication;
+import com.AppProject.GFinanceiro.javaFx.JavaFxApplication;
 
 import javafx.application.Application;
 
 @SpringBootApplication
-public class GFinancieroApplication {
+public class GFinanceiroApplication {
 
   public static void main(String[] args) {
     Application.launch(JavaFxApplication.class, args);

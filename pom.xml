@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.AppProject</groupId>
-	<artifactId>GFinanciero</artifactId>
+	<artifactId>GFinanceiro</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>
 	<description/>
@@ -97,7 +97,7 @@
         <version>0.0.8</version>
 
         <configuration>
-          <mainClass>com.AppProject.GFinanciero.GFinancieroApplication</mainClass>
+          <mainClass>com.AppProject.GFinanceiro.GFinanceiroApplication</mainClass>
         </configuration>
       </plugin>
 			<plugin>

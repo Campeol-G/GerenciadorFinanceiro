@@ -1,4 +1,4 @@
-package com.AppProject.GFinanciero.controller;
+package com.AppProject.GFinanceiro.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;

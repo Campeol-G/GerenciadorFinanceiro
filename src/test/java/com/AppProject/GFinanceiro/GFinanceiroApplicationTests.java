@@ -1,10 +1,10 @@
-package com.AppProject.GFinanciero;
+package com.AppProject.GFinanceiro;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class GFinancieroApplicationTests {
+class GFinanceiroApplicationTests {
 
 	@Test
 	void contextLoads() {
