@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 public class JavaFxApplication extends Application {
 
   private ConfigurableApplicationContext context;
+  private static Scene mainScene;
 
   @Override
   public void init() throws Exception {
@@ -25,7 +26,6 @@ public class JavaFxApplication extends Application {
   @Override
   public void start(Stage stage) {
     try {
-      System.out.println("try");
       FXMLLoader loader = new FXMLLoader(
           getClass().getResource("/views/MainView.fxml"));
 
@@ -33,13 +33,17 @@ public class JavaFxApplication extends Application {
       ScrollPane scrollPane = loader.load();
       scrollPane.setFitToHeight(true);
       scrollPane.setFitToWidth(true);
-      Scene scene = new Scene(scrollPane);
-      stage.setScene(scene);
+      mainScene = new Scene(scrollPane);
+      stage.setScene(mainScene);
       stage.show();
     } catch (IOException e) {
       e.printStackTrace();
     }
 
+  }
+
+  public static Scene getMainScene() {
+    return mainScene;
   }
 
   @Override
