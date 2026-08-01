@@ -3,9 +3,9 @@ package com.AppProject.GFinanceiro.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import org.hibernate.validator.internal.util.Contracts;
 import org.springframework.stereotype.Controller;
 
+import com.AppProject.GFinanceiro.entity.Department;
 import com.AppProject.GFinanceiro.util.Constraints;
 
 import javafx.fxml.FXML;
@@ -16,6 +16,12 @@ import javafx.scene.control.TextField;
 
 @Controller
 public class DepartmentFormController implements Initializable {
+
+  private Department entity;
+
+  public void setEntity(Department entity) {
+    this.entity = entity;
+  }
 
   @FXML
   private TextField txtId;
@@ -52,4 +58,8 @@ public class DepartmentFormController implements Initializable {
     Constraints.setTextFieldMaxLength(txtName, 30);
   }
 
+  public void updateFormData() {
+    txtId.setText(entity.getId());
+    txtName.setText(entity.getName());
+  }
 }
