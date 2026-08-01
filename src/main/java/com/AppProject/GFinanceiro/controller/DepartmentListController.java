@@ -1,5 +1,7 @@
 package com.AppProject.GFinanceiro.controller;
 
+import javafx.event.ActionEvent;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -9,15 +11,22 @@ import org.springframework.stereotype.Controller;
 import com.AppProject.GFinanceiro.entity.Department;
 import com.AppProject.GFinanceiro.javaFx.JavaFxApplication;
 import com.AppProject.GFinanceiro.service.DepartmentService;
+import com.AppProject.GFinanceiro.util.Alerts;
+import com.AppProject.GFinanceiro.util.Utils;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 @Controller
@@ -45,8 +54,9 @@ public class DepartmentListController implements Initializable {
   private ObservableList<Department> obslist;
 
   @FXML
-  public void onButtonNewAction() {
-    System.out.println("new");
+  public void onButtonNewAction(ActionEvent event) {
+    Stage parentStage = Utils.currentStage(event);
+    createDialogForm(parentStage, "/views/DepartmentForm.fxml");
   }
 
   @Override
@@ -67,5 +77,23 @@ public class DepartmentListController implements Initializable {
 
     obslist = FXCollections.observableArrayList(list);
     tableViewDepartment.setItems(obslist);
+  }
+
+  private void createDialogForm(Stage parentStage, String absoluteName) {
+    try {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+      loader.setControllerFactory(JavaFxApplication.getContext()::getBean);
+      Pane pane = loader.load();
+
+      Stage dialogStage = new Stage();
+      dialogStage.setTitle("Enter Department data: ");
+      dialogStage.setScene(new Scene(pane));
+      dialogStage.setResizable(false);
+      dialogStage.initOwner(parentStage);
+      dialogStage.initModality(Modality.WINDOW_MODAL);
+      dialogStage.showAndWait();
+    } catch (IOException e) {
+      Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
+    }
   }
 }
