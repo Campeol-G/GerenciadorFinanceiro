@@ -20,4 +20,8 @@ public class DepartmentService {
   public List<Department> findAll() {
     return repository.findAll();
   }
+
+  public void saveOrUpdate(Department dep) {
+    repository.save(dep);
+  }
 }
