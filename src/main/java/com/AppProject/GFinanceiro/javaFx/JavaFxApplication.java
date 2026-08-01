@@ -30,9 +30,7 @@ public class JavaFxApplication extends Application {
   @Override
   public void start(Stage stage) {
     try {
-      FXMLLoader loader = new FXMLLoader(
-          getClass().getResource("/views/MainView.fxml"));
-
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/MainView.fxml"));
       loader.setControllerFactory(context::getBean);
       ScrollPane scrollPane = loader.load();
       scrollPane.setFitToHeight(true);
