@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 
 import org.springframework.stereotype.Controller;
 
+import com.AppProject.GFinanceiro.entity.Department;
 import com.AppProject.GFinanceiro.entity.Seller;
 import com.AppProject.GFinanceiro.exception.DbException;
 import com.AppProject.GFinanceiro.javaFx.JavaFxApplication;
@@ -64,6 +65,9 @@ public class SellerListController implements Initializable, DataChangeListener {
   private TableColumn<Seller, Double> tableColumnBaseSalary;
 
   @FXML
+  private TableColumn<Seller, Department> tableColumnDepartment;
+
+  @FXML
   private TableColumn<Seller, Seller> tableColumnEDIT;
 
   @FXML
@@ -94,6 +98,7 @@ public class SellerListController implements Initializable, DataChangeListener {
     tableColumnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
     tableColumnBaseSalary.setCellValueFactory(new PropertyValueFactory<>("baseSalary"));
     tableColumnBirthDate.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
+    tableColumnDepartment.setCellValueFactory(new PropertyValueFactory<>("department"));
     Utils.formatTableColumnInstant(tableColumnBirthDate);
     Utils.formatTableColumnDouble(tableColumnBaseSalary, 2);
 
