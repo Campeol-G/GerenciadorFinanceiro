@@ -10,36 +10,47 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.AppProject.GFinanceiro.entity.Department;
 import com.AppProject.GFinanceiro.entity.Seller;
 import com.AppProject.GFinanceiro.exception.DbException;
 import com.AppProject.GFinanceiro.exception.ValidationException;
 import com.AppProject.GFinanceiro.listeners.DataChangeListener;
+import com.AppProject.GFinanceiro.service.DepartmentService;
 import com.AppProject.GFinanceiro.service.SellerService;
 import com.AppProject.GFinanceiro.util.Alerts;
 import com.AppProject.GFinanceiro.util.Constraints;
 import com.AppProject.GFinanceiro.util.Utils;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.util.Callback;
 
 @Controller
 public class SellerFormController implements Initializable {
 
   private Seller entity;
 
+  @Autowired
+  private SellerService service;
+  @Autowired
+  private DepartmentService depService;
+
   public void setEntity(Seller entity) {
     this.entity = entity;
   }
 
   private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
-  @Autowired
-  private SellerService service;
 
   @FXML
   private TextField txtId;
@@ -55,6 +66,9 @@ public class SellerFormController implements Initializable {
 
   @FXML
   private DatePicker dpBirthDate;
+
+  @FXML
+  private ComboBox<Department> comboBoxDepartment;
 
   @FXML
   private Label labelErrorName;
@@ -73,6 +87,9 @@ public class SellerFormController implements Initializable {
 
   @FXML
   private Button btCancel;
+
+  @FXML
+  private ObservableList<Department> obsList;
 
   @FXML
   public void onBtSaveAction(ActionEvent event) {
@@ -143,7 +160,17 @@ public class SellerFormController implements Initializable {
     txtEmail.setText(entity.getEmail());
     txtBaseSalary.setText(String.format("%.2f", entity.getBaseSalary()));
     dpBirthDate.setValue(Utils.instantToLocalDate(entity.getBirthDate()));
+    if (entity.getDepartment() == null) {
+      comboBoxDepartment.getSelectionModel().selectFirst();
+    } else {
+      comboBoxDepartment.setValue(entity.getDepartment());
+    }
+  }
 
+  public void loadAssociatedObjects() {
+    List<Department> list = depService.findAll();
+    obsList = FXCollections.observableArrayList(list);
+    comboBoxDepartment.setItems(obsList);
   }
 
   public void subscribeDataChangeListener(DataChangeListener listener) {
@@ -156,5 +183,17 @@ public class SellerFormController implements Initializable {
     if (fields.contains("name")) {
       labelErrorName.setText(error.get("name"));
     }
+  }
+
+  private void initializeComboBoxDepartment() {
+    Callback<ListView<Department>, ListCell<Department>> factory = lv -> new ListCell<Department>() {
+      @Override
+      protected void updateItem(Department item, boolean empty) {
+        super.updateItem(item, empty);
+        setText(empty ? "" : item.getName());
+      }
+    };
+    comboBoxDepartment.setCellFactory(factory);
+    comboBoxDepartment.setButtonCell(factory.call(null));
   }
 }

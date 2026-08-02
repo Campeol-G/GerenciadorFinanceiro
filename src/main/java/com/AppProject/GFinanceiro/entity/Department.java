@@ -59,4 +59,9 @@ public class Department {
     return true;
   }
 
+  @Override
+  public String toString() {
+    return Name + "";
+  }
+
 }
