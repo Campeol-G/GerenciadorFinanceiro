@@ -24,6 +24,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -47,7 +48,25 @@ public class SellerFormController implements Initializable {
   private TextField txtName;
 
   @FXML
+  private TextField txtEmail;
+
+  @FXML
+  private TextField txtBaseSalary;
+
+  @FXML
+  private DatePicker dpBirthDate;
+
+  @FXML
   private Label labelErrorName;
+
+  @FXML
+  private Label labelErrorEmail;
+
+  @FXML
+  private Label labelErrorBirthDate;
+
+  @FXML
+  private Label labelErrorSalary;
 
   @FXML
   private Button btSave;
@@ -108,7 +127,10 @@ public class SellerFormController implements Initializable {
   }
 
   private void initializeNodes() {
-    Constraints.setTextFieldMaxLength(txtName, 30);
+    Constraints.setTextFieldMaxLength(txtName, 80);
+    Constraints.setTextFieldDouble(txtBaseSalary);
+    Constraints.setTextFieldMaxLength(txtEmail, 100);
+    Utils.formatDatePicker(dpBirthDate, "dd/MM/yyyy");
   }
 
   public void updateFormData() {
@@ -118,6 +140,10 @@ public class SellerFormController implements Initializable {
 
     txtId.setText(entity.getId());
     txtName.setText(entity.getName());
+    txtEmail.setText(entity.getEmail());
+    txtBaseSalary.setText(String.format("%.2f", entity.getBaseSalary()));
+    dpBirthDate.setValue(Utils.instantToLocalDate(entity.getBirthDate()));
+
   }
 
   public void subscribeDataChangeListener(DataChangeListener listener) {
