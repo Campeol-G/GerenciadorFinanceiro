@@ -108,7 +108,6 @@ public class DepartmentFormController implements Initializable {
   }
 
   private void initializeNodes() {
-    Constraints.setTextFieldInteger(txtId);
     Constraints.setTextFieldMaxLength(txtName, 30);
   }
 
