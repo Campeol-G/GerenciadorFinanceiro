@@ -1,7 +1,7 @@
 package com.AppProject.GFinanceiro.controller;
 
-import java.io.IOException;
 import java.net.URL;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -16,14 +16,13 @@ import com.AppProject.GFinanceiro.service.SellerService;
 import com.AppProject.GFinanceiro.util.Alerts;
 import com.AppProject.GFinanceiro.util.Utils;
 
+import ch.qos.logback.classic.pattern.Util;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -31,8 +30,6 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Pane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 @Controller
@@ -52,6 +49,15 @@ public class SellerListController implements Initializable, DataChangeListener {
 
   @FXML
   private TableColumn<Seller, String> tableColumnName;
+
+  @FXML
+  private TableColumn<Seller, String> tableColumnEmail;
+
+  @FXML
+  private TableColumn<Seller, Instant> tableColumnBirthDate;
+
+  @FXML
+  private TableColumn<Seller, Double> tableColumnBaseSalary;
 
   @FXML
   private TableColumn<Seller, Seller> tableColumnEDIT;
@@ -80,7 +86,12 @@ public class SellerListController implements Initializable, DataChangeListener {
 
   private void InitializeNodes() {
     tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
-    tableColumnName.setCellValueFactory(new PropertyValueFactory<>("name"));
+    tableColumnName.setCellValueFactory(new PropertyValueFactory<>("Name"));
+    tableColumnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+    tableColumnBaseSalary.setCellValueFactory(new PropertyValueFactory<>("baseSalary"));
+    tableColumnBirthDate.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
+    Utils.formatTableColumnInstant(tableColumnBirthDate);
+    Utils.formatTableColumnDouble(tableColumnBaseSalary, 2);
 
     Stage stage = (Stage) JavaFxApplication.getMainScene().getWindow();
     tableViewSeller.prefHeightProperty().bind(stage.heightProperty());
