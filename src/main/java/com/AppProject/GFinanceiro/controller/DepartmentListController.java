@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 
 import com.AppProject.GFinanceiro.entity.Department;
 import com.AppProject.GFinanceiro.javaFx.JavaFxApplication;
+import com.AppProject.GFinanceiro.listeners.DataChangeListener;
 import com.AppProject.GFinanceiro.service.DepartmentService;
 import com.AppProject.GFinanceiro.util.Alerts;
 import com.AppProject.GFinanceiro.util.Utils;
@@ -30,7 +31,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 @Controller
-public class DepartmentListController implements Initializable {
+public class DepartmentListController implements Initializable, DataChangeListener {
 
   private final DepartmentService service;
 
@@ -89,6 +90,7 @@ public class DepartmentListController implements Initializable {
 
       DepartmentFormController controller = loader.getController();
       controller.setEntity(obj);
+      controller.subscribeDataChangeListener(this);
       controller.updateFormData();
 
       Stage dialogStage = new Stage();
@@ -102,4 +104,10 @@ public class DepartmentListController implements Initializable {
       Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
     }
   }
+
+  @Override
+  public void onDataChanged() {
+    updateTableView();
+  }
+
 }

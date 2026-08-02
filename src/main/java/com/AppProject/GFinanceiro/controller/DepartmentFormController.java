@@ -1,6 +1,8 @@
 package com.AppProject.GFinanceiro.controller;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Controller;
 
 import com.AppProject.GFinanceiro.entity.Department;
 import com.AppProject.GFinanceiro.exception.DbException;
+import com.AppProject.GFinanceiro.listeners.DataChangeListener;
 import com.AppProject.GFinanceiro.service.DepartmentService;
 import com.AppProject.GFinanceiro.util.Alerts;
 import com.AppProject.GFinanceiro.util.Constraints;
@@ -30,6 +33,7 @@ public class DepartmentFormController implements Initializable {
     this.entity = entity;
   }
 
+  private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
   @Autowired
   private DepartmentService service;
 
@@ -56,10 +60,18 @@ public class DepartmentFormController implements Initializable {
     try {
       entity = getFormData();
       service.saveOrUpdate(entity);
+      nofityDataChangeListeners();
+      Utils.currentStage(event).close();
+
     } catch (DbException e) {
       Alerts.showAlert("Erro saving object", null, e.getMessage(), AlertType.ERROR);
     }
-    Utils.currentStage(event).close();
+  }
+
+  private void nofityDataChangeListeners() {
+    for (DataChangeListener listener : dataChangeListeners) {
+      listener.onDataChanged();
+    }
   }
 
   private Department getFormData() {
@@ -91,5 +103,9 @@ public class DepartmentFormController implements Initializable {
 
     txtId.setText(entity.getId());
     txtName.setText(entity.getName());
+  }
+
+  public void subscribeDataChangeListener(DataChangeListener listener) {
+    dataChangeListeners.add(listener);
   }
 }
