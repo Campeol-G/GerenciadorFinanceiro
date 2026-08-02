@@ -3,26 +3,29 @@ package com.AppProject.GFinanceiro.controller;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.AppProject.GFinanceiro.entity.Department;
 import com.AppProject.GFinanceiro.exception.DbException;
+import com.AppProject.GFinanceiro.exception.ValidationException;
 import com.AppProject.GFinanceiro.listeners.DataChangeListener;
 import com.AppProject.GFinanceiro.service.DepartmentService;
 import com.AppProject.GFinanceiro.util.Alerts;
 import com.AppProject.GFinanceiro.util.Constraints;
 import com.AppProject.GFinanceiro.util.Utils;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
-import javafx.event.ActionEvent;
 
 @Controller
 public class DepartmentFormController implements Initializable {
@@ -65,6 +68,8 @@ public class DepartmentFormController implements Initializable {
 
     } catch (DbException e) {
       Alerts.showAlert("Erro saving object", null, e.getMessage(), AlertType.ERROR);
+    } catch (ValidationException e) {
+      setErrorsMessages(e.getErrors());
     }
   }
 
@@ -76,8 +81,19 @@ public class DepartmentFormController implements Initializable {
 
   private Department getFormData() {
     Department obj = new Department();
+
+    ValidationException exception = new ValidationException("Validation error");
+
     obj.setId(txtId.getText());
+
+    if (txtName.getText() == null || txtName.getText().trim().equals("")) {
+      exception.addError("name", "Field can't be empty");
+    }
     obj.setName(txtName.getText());
+
+    if (exception.getErrors().size() > 0) {
+      throw exception;
+    }
     return obj;
   }
 
@@ -107,5 +123,13 @@ public class DepartmentFormController implements Initializable {
 
   public void subscribeDataChangeListener(DataChangeListener listener) {
     dataChangeListeners.add(listener);
+  }
+
+  private void setErrorsMessages(Map<String, String> error) {
+    Set<String> fields = error.keySet();
+
+    if (fields.contains("name")) {
+      labelErrorName.setText(error.get("name"));
+    }
   }
 }
