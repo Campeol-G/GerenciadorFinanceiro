@@ -3,25 +3,25 @@ package com.AppProject.GFinanceiro.entity;
 import java.time.Instant;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document
 public class Seller {
 
   @Id
   private String id;
-  private String name;
+  private String Name;
   private String email;
   private Instant birthDate;
 
-  public Seller(Instant birthDate, String id, String name, String email, Double baseSalary, String departmentId) {
+  public Seller(Instant birthDate, String id, String Name, String email, Double baseSalary, Department department) {
     this.birthDate = birthDate;
     this.id = id;
-    this.name = name;
+    this.Name = Name;
     this.email = email;
     this.baseSalary = baseSalary;
-    this.departmentId = departmentId;
+    this.department = department;
   }
 
   public Seller() {
@@ -29,8 +29,8 @@ public class Seller {
 
   private Double baseSalary;
 
-  @Field("DepartmentId")
-  private String departmentId;
+  @DBRef
+  private Department department;
 
   public String getId() {
     return id;
@@ -41,11 +41,11 @@ public class Seller {
   }
 
   public String getName() {
-    return name;
+    return Name;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setName(String Name) {
+    this.Name = Name;
   }
 
   public String getEmail() {
@@ -72,12 +72,12 @@ public class Seller {
     this.baseSalary = baseSalary;
   }
 
-  public String getDepartmentId() {
-    return departmentId;
+  public Department getDepartment() {
+    return department;
   }
 
-  public void setDepartmentId(String departmentId) {
-    this.departmentId = departmentId;
+  public void setDepartment(Department department) {
+    this.department = department;
   }
 
   @Override

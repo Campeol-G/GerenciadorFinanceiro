@@ -2,7 +2,6 @@ package com.AppProject.GFinanceiro.service;
 
 import java.util.List;
 
-import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 import com.AppProject.GFinanceiro.entity.Department;
@@ -31,16 +30,10 @@ public class DepartmentService {
   }
 
   public void delete(Department dep) {
-    ObjectId departmentObjectId = null;
-    try {
-      departmentObjectId = new ObjectId(dep.getId());
-    } catch (IllegalArgumentException e) {
-      // id is not a valid ObjectId (e.g. app-generated String id)
-    }
-    List<Seller> sellers = sellerRepository.findByDepartmentIdAsStringOrObjectId(dep.getId(), departmentObjectId);
+    List<Seller> sellers = sellerRepository.findByDepartment(dep);
     if (!sellers.isEmpty()) {
       throw new DbException("Department has sellers and can't be deleted");
     }
-    repository.deleteById(dep.getId());
+    repository.delete(dep);
   }
 }
