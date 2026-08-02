@@ -4,6 +4,7 @@ import java.time.Instant;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document
 public class Seller {
@@ -14,18 +15,22 @@ public class Seller {
   private String email;
   private Instant birthDate;
 
-  public Seller(Instant birthDate, String id, String name, String email, Double baseSalary) {
+  public Seller(Instant birthDate, String id, String name, String email, Double baseSalary, String departmentId) {
     this.birthDate = birthDate;
     this.id = id;
     this.name = name;
     this.email = email;
     this.baseSalary = baseSalary;
+    this.departmentId = departmentId;
   }
 
   public Seller() {
   }
 
   private Double baseSalary;
+
+  @Field("DepartmentId")
+  private String departmentId;
 
   public String getId() {
     return id;
@@ -65,6 +70,14 @@ public class Seller {
 
   public void setBaseSalary(Double baseSalary) {
     this.baseSalary = baseSalary;
+  }
+
+  public String getDepartmentId() {
+    return departmentId;
+  }
+
+  public void setDepartmentId(String departmentId) {
+    this.departmentId = departmentId;
   }
 
   @Override
